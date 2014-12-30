@@ -55,6 +55,9 @@
         if(this.inputsConfig[2].value > max) {
           this.inputsConfig[2].value = max - 1;
         }
+        if(this.inputsConfig[2].value < 1) {
+          this.inputsConfig[2].value = 1;
+        }
         this.injectBoundHTML('<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>', this.$.board);
       };
       template.keys = function (obj) {

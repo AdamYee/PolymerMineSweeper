@@ -74,8 +74,6 @@ function Cell(i, j) {
     }
     if(this.mine) {
       color = '#000';
-    } else if(this.flagged) {
-      color = 'yellow';
     }
     return color;
   };
