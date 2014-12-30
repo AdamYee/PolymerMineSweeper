@@ -1,0 +1,19 @@
+{
+  "name": "MSCell",
+  "version": "0.0.0",
+  "authors": [
+    "Adam <adam.yee@xero.com>"
+  ],
+  "description": "mine sweeper cell polymer compoment",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.2"
+  }
+}
