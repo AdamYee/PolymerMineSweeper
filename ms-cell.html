@@ -5,6 +5,7 @@
   name="ms-cell"
   attributes="cell revealed"
   on-click="{{reveal}}"
+  on-contextmenu="{{flag}}"
   horizontal center-justified layout center>
   <template>
     <style>
@@ -105,7 +106,6 @@
           reflect: true
         }
       },
-      revealed: false,
       computedDisplayVal: function(flagged, revealed) {
         if(flagged && !revealed) {
           return 'F';
@@ -114,63 +114,32 @@
         }
       },
       computed: {
-        'hide'            : '!revealed && !cell.flagged',
+        'hide'            : '!cell.flagged && !revealed',
         'displayVal'      : 'computedDisplayVal(cell.flagged, revealed)'
       },
       ready: function() {
         this.color = this.cell.color();
-        // add event listener for context menu clicks (flagging mines)
-        this.addEventListener('contextmenu', function(e) {
-          e.preventDefault();
-          if(this.revealed) {
-            return;
-          } else {
-            if(!this.cell.flagged) {
-              this.$.content.setAttribute('class', 'flagged drop-flag');
-              this.cell.flagged = true;
-              this.color = 'orange';
-              this.fire('flagged', 1);
-            } else {
-              var removeFlag = function() {
-                this.cell.flagged = false;
-                this.color = this.cell.color();
-                this.fire('flagged', -1);
-                this.$.content.setAttribute('class', '');
-                this.removeEventListener('webkitAnimationEnd', removeFlag);
-              };
-              this.addEventListener('webkitAnimationEnd', removeFlag);
-              /**
-               * Animate the flag pickup:
-               * Removing a class with animation (possible specific to reverse animation)
-               * and then adding a class with animation on different cycles (eventloops)
-               * seems to do the trick.
-               */
-              this.$.content.setAttribute('class', 'flagged');
-              setTimeout(function () {
-                this.$.content.setAttribute('class', 'flagged pickup-flag');
-              }.bind(this),0);
-            }
-          }
-        }.bind(this));
-
         /**
          * Recursively reveal a 0 risk cell's neighbors.
+         * And check for wins if revealing a risky cell.
          */
         var propagate = function() {
           // only need to fire reveal-neighbors once
-          if (this.revealed) {
+          if(this.revealed && !this.cell.mine) {
             this.removeEventListener('webkitAnimationEnd', propagate);
-          }
-          if(this.revealed && !this.cell.mine && this.cell.risk === 0) {
-            this.fire('reveal-neighbors');
+            if(this.cell.risk === 0) {
+              this.fire('reveal-neighbors');
+            } else {
+              this.fire('check-win');
+            }
           }
         }.bind(this);
         this.addEventListener('webkitAnimationEnd', propagate);
       },
       revealedChanged: function() {
         if(this.revealed) {
-          var klass = this.cell.mine ? 'explode' : 'revealed';
-          this.setAttribute('class', klass);
+          this.cell.revealed = true;
+          this.setAttribute('class', this.cell.mine ? 'explode' : 'revealed');
         }
       },
       reveal: function(event, detail, sender) {
@@ -181,6 +150,42 @@
         this.revealed = true;
         if(this.cell.mine) {
           this.fire('explosion');
+        }
+      },
+      /**
+       * Event handler for context menu clicks (flagging mines)
+       */
+      flag: function (e) {
+        e.preventDefault();
+        if(this.revealed) {
+          return;
+        } else {
+          if(!this.cell.flagged) {
+            this.$.content.setAttribute('class', 'flagged drop-flag');
+            this.cell.flagged = true;
+            this.color = 'orange';
+            this.fire('flagged', 1);
+          } else {
+            var removeFlag = function() {
+              this.cell.flagged = false;
+              this.color = this.cell.color();
+              this.fire('flagged', -1);
+              this.$.content.setAttribute('class', '');
+              this.removeEventListener('webkitAnimationEnd', removeFlag);
+            };
+            this.addEventListener('webkitAnimationEnd', removeFlag);
+            /**
+             * Animate the flag pickup:
+             * Removing a class with animation (possible specific to reverse animation)
+             * and then adding a class with animation on different cycles (eventloops)
+             * seems to do the trick.
+             */
+            var content = this.$.content;
+            content.setAttribute('class', 'flagged');
+            setTimeout(function () {
+              content.setAttribute('class', 'flagged pickup-flag');
+            }, 0);
+          }
         }
       }
     });

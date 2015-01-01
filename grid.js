@@ -5,7 +5,7 @@
   function Cell(i, j) {
     // public
     this.mine = false;
-    this.visited = false;
+    this.revealed = false;
     this.flagged = false;
     this.risk = 0;
     this.id = "cid_" + i + '_' + j;
@@ -93,6 +93,25 @@
           }
         }
       };
+    };
+
+    /**
+     * Maps and reduces the grid's 2d array using each cell's
+     * `revealed` and `flagged` attributes as counters.
+     * @return {Boolean} - true if rows * columns equals # of revealed cells + # of flagged cells
+     */
+    this.hasWon = function () {
+      function reduceCounters (p, c) {
+        return { revealed: p.revealed + c.revealed, flagged: p.flagged + c.flagged };
+      }
+      var counters = this.cells.map(function (row) {
+        return row.map(function (cell) {
+          return { revealed: cell.revealed ? 1 : 0, flagged: cell.flagged ? 1 : 0 };
+        })
+        .reduce(reduceCounters);
+      })
+      .reduce(reduceCounters);
+      return rows * columns === counters.revealed + counters.flagged;
     };
 
     /*

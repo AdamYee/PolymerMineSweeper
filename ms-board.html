@@ -5,8 +5,9 @@
 <polymer-element
   name="ms-board"
   attributes="rows columns mines"
-  on-flagged="{{countFlags}}"
-  on-explosion="{{createExplosion}}">
+  on-explosion="{{createExplosion}}"
+  on-flagged="{{flaggedHandler}}"
+  on-check-win="{{checkWin}}">
   <template>
     <style>
     #board {
@@ -23,7 +24,6 @@
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1.2s;
     }
     #game-end > span {
       font-size: 17px;
@@ -33,10 +33,14 @@
       padding: 0 5px;
       box-shadow: 0 0 4px 0px;
     }
-    #game-end.explosions-done {
+    #game-end.show {
+      -webkit-animation: show 1.2s;
       opacity: 1;
     }
-
+    @-webkit-keyframes show {
+      0% {opacity: 0;}
+      100% {opacity: 100;}
+    }
     </style>
     <div id="board">
       <template repeat="{{ row in grid.cells }}">
@@ -50,7 +54,11 @@
           </template>
         </div>
       </template>
-      <div id="game-end" class="{{ {'explosions-done': doneExploding} | tokenList }}" hidden?="{{!gameOver}}" horizontal center-justified layout center>
+      <div
+        id="game-end"
+        class="{{ {'show': doneExploding || win} | tokenList }}"
+        hidden?="{{!gameOver}}"
+        horizontal center-justified layout center>
         <span style="color: {{win ? 'green' : 'red'}}">{{gameEndMessage}}</span>
       </div>
     </div>
@@ -77,8 +85,15 @@
       computed: {
         'gameEndMessage': 'win ? "YOU WIN" : "GAME OVER"'
       },
-      countFlags: function (Event, object, element) {
+      flaggedHandler: function (Event, object, element) {
         this.flagCount += object; // object is 1 or -1
+        this.checkWin();
+      },
+      checkWin: function () {
+        this.win = this.grid.hasWon();
+        if(this.win) {
+          this.gameOver = true;
+        }
       },
       /**
        * Recursively self reveals cells as 0 risk cell are revealed.
