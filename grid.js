@@ -26,6 +26,9 @@
     };
 
     this.color = function () {
+      if(this.mine) {
+        return '#000';
+      }
       var color = '';
       switch(this.risk) {
         case 1:
@@ -52,9 +55,6 @@
         case 8:
           color = 'grey';
           break;
-      }
-      if(this.mine) {
-        color = '#000';
       }
       return color;
     };
@@ -101,16 +101,16 @@
      * @return {Boolean} - true if rows * columns equals # of revealed cells + # of flagged cells
      */
     this.hasWon = function () {
-      function reduceCounters (p, c) {
+      function counters (p, c) {
         return { revealed: p.revealed + c.revealed, flagged: p.flagged + c.flagged };
       }
       var counters = this.cells.map(function (row) {
         return row.map(function (cell) {
           return { revealed: cell.revealed ? 1 : 0, flagged: cell.flagged ? 1 : 0 };
         })
-        .reduce(reduceCounters);
+        .reduce(counters);
       })
-      .reduce(reduceCounters);
+      .reduce(counters);
       return rows * columns === counters.revealed + counters.flagged;
     };
 
