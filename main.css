@@ -1,19 +1,11 @@
-body {
-  font-family: sans-serif;
-}
-html, body {
-  height: 100%;
-}
 button {
   height: 43px;
   width: 100px;
   margin-left: 10px;
 }
-
 #board {
   border-top: 1px solid #ccc;
 }
-
 #inputs {
   font-size: 12px;
   font-weight: bold;
