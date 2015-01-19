@@ -8,6 +8,10 @@
     :host {
       font-family: sans-serif;
     }
+    h1 {
+      display: inline-block;
+      padding-right: 20px;
+    }
     button {
       height: 43px;
       width: 100px;
@@ -27,7 +31,7 @@
     }
     </style>
     <div horizontal layout>
-      <h1 style="display: inline-block; padding-right: 20px;">Mine Sweeper</h1>
+      <h1>Mine Sweeper</h1>
       <div id="inputs" horizontal layout>
         <template repeat="{{i in inputsConfig}}">
           <div flex vertical layout center>

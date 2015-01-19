@@ -67,7 +67,6 @@
   </template>
   <script>
     'use strict';
-    var Grid = MSPolymer.Grid;
     Polymer({
       created: function () {
         this.gameOver = false;
@@ -82,7 +81,7 @@
        * in the `ready` lifecycle method.
        */
       ready: function () {
-        this.grid = new Grid(this.rows, this.columns, this.mines);
+        this.grid = new MSPolymer.Grid(this.rows, this.columns, this.mines);
       },
       computed: {
         'gameEndMessage': 'win ? "YOU WIN" : "GAME OVER"'
