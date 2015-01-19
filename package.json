@@ -1,7 +1,7 @@
 {
-  "name": "MSCell",
-  "version": "0.0.0",
-  "description": "using Polymer",
+  "name": "polymer-minesweeper",
+  "version": "1.0.0",
+  "description": "using Polymer to build minesweeper the game",
   "author": "AdamYee",
   "contributors": [{
     "name": "Adam Yee",
