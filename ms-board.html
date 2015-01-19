@@ -35,12 +35,14 @@
     }
     #game-end.show {
       -webkit-animation: show 1.2s;
+      animation: show 1.2s;
       opacity: 1;
     }
     @-webkit-keyframes show {
       0% {opacity: 0;}
       100% {opacity: 100;}
     }
+    @keyframes show { 0% {opacity: 0;} 100% {opacity: 100;} }
     </style>
     <div id="board">
       <template repeat="{{ row in grid.cells }}">
@@ -129,14 +131,17 @@
 
         // know when to show the game over message - after we're done exploding
         var explodedCount = 0;
-        this.addEventListener('webkitAnimationEnd', function (e) {
+        var explode = function (e) {
           if (e.animationName === 'explode') {
             explodedCount++;
             if(explodedCount === this.mines - this.flagCount) {
               this.doneExploding = true
             }
           }
-        }.bind(this));
+        };
+        this.addEventListener('webkitAnimationEnd', explode);
+        this.addEventListener('MSAnimationEnd', explode);
+        this.addEventListener('animationend', explode);
 
         mines.forEach(function(cell, i) {
           setTimeout(function () {

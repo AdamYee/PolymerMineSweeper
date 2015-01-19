@@ -4,6 +4,28 @@
 <polymer-element name="ms-play">
   <template>
     <link rel="stylesheet" href="main.css">
+    <style>
+    :host {
+      font-family: sans-serif;
+    }
+    button {
+      height: 43px;
+      width: 100px;
+      margin-left: 10px;
+    }
+    #board {
+      border-top: 1px solid #ccc;
+    }
+    #inputs {
+      font-size: 12px;
+      font-weight: bold;
+      width: 222px;
+      padding-top: 19px;
+    }
+    #inputs input {
+      width: 50px;
+    }
+    </style>
     <div horizontal layout>
       <h1 style="display: inline-block; padding-right: 20px;">Mine Sweeper</h1>
       <div id="inputs" horizontal layout>
