@@ -11,3 +11,13 @@ bower install --save https://github.com/AdamYee/PolymerMineSweeper.git
 <link rel="import" href="bower_components/polymer-minesweeper/ms-play.html">
 <ms-play></ms-play>
 ```
+
+Local Demo
+----------
+
+```bash
+bower install
+npm install
+npm start
+```
+[http://localhost:8080/demo](http://localhost:8080/demo)
