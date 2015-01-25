@@ -6,6 +6,7 @@
   ],
   "description": "mine sweeper polymer component",
   "license": "MIT",
+  "main": "ms-play.html",
   "ignore": [
     "node_modules",
     "bower_components"
