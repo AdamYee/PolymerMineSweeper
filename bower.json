@@ -11,6 +11,11 @@
     "node_modules",
     "bower_components"
   ],
+  "keywords": [
+    "polymer",
+    "webcomponents",
+    "web-components"
+  ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.2"
   }
