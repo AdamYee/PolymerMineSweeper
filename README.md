@@ -19,6 +19,8 @@ Usage
 Local Demo
 ----------
 ```bash
+cd bower_components/polymer-minesweeper
+bower install
 npm install
 npm start
 ```
