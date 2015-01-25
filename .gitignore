@@ -3,9 +3,5 @@ core-component-page
 polymer
 webcomponentsjs
 *.log
-demo/grid.js
-demo/ms-play.html
-demo/ms-board.html
-demo/ms-cell.html
-demo/*-compiled.js
-demo/*-compiled.js.map
+demo/
+es6/

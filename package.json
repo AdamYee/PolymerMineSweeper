@@ -11,9 +11,13 @@
   ],
   "scripts": {
     "serve": "node node_modules/http-server/bin/http-server",
-    "6to5": "./node_modules/.bin/6to5 es6/grid.js --out-file demo/grid-compiled.js --source-maps",
-    "copy": "cp ms-play.html ms-board.html ms-cell.html demo",
-    "prestart": "npm run 6to5 && npm run copy",
+    "clean": "rm -r es6/*; rm -r demo/*; rm -r lib/*",
+    "6to5": "./node_modules/.bin/6to5 src --out-dir es6 --source-maps",
+    "copyES6": "mkdir demo; cp -r es6 demo/",
+    "copyHtml": "cp ms-play.html ms-board.html ms-cell.html demo; cp src/index.html demo",
+    "copyPolyfill": "cp ./node_modules/6to5/browser-polyfill.js lib; cp -r lib demo/",
+    "build": "npm run 6to5 && npm run copyES6 && npm run copyHtml && npm run copyPolyfill",
+    "prestart": "npm run build",
     "start": "npm run serve"
   },
   "repository": {},
