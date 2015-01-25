@@ -7,11 +7,8 @@
   "description": "mine sweeper polymer component",
   "license": "MIT",
   "ignore": [
-    "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.2"
