@@ -1,3 +1,6 @@
 {
-  "directory" : "."
+  "directory" : ".",
+  "scripts": {
+    "postinstall": "npm run 6to5; echo INSTALLED MINESWEEPER"
+  }
 }

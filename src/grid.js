@@ -74,9 +74,7 @@
         this.cells[a][b].mine = true;
         this.mineArray.push(this.cells[a][b].id)
         let incrementRisk = this.forEachSurroudingCell(a, b);
-        incrementRisk((r, c) => {
-          this.cells[r][c].risk += 1;
-        });
+        incrementRisk((r, c) => this.cells[r][c].risk += 1);
       }
     }
     
