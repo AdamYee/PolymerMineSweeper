@@ -1,4 +1,4 @@
-polymer-minesweeper &lt;ms-play&gt;
+&lt;ms-play&gt;
 ===================================
 
 Mine Sweeper made with Polymer built to be used as a bower package. Javascript source is written in
