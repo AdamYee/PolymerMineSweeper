@@ -13,14 +13,14 @@ Usage
 
 ```html
 <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
-<link rel="import" href="bower_components/polymer-minesweeper/play-minesweeper.html">
+<link rel="import" href="bower_components/play-minesweeper/play-minesweeper.html">
 <play-minesweeper></play-minesweeper>
 ```
 
 Local Demo
 ----------
 ```bash
-cd bower_components/polymer-minesweeper
+cd bower_components/play-minesweeper
 bower install
 npm install
 npm start
