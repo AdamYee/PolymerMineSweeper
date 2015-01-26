@@ -12,7 +12,7 @@ Usage
 -----
 
 ```html
-<link rel="import" href="bower_components/polymer-minesweeper/ms-play.html">
+<link rel="import" href="bower_components/polymer-minesweeper/play-minesweeper.html">
 <play-minesweeper></play-minesweeper>
 ```
 
