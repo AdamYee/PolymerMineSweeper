@@ -12,6 +12,7 @@ Usage
 -----
 
 ```html
+<script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 <link rel="import" href="bower_components/polymer-minesweeper/play-minesweeper.html">
 <play-minesweeper></play-minesweeper>
 ```
