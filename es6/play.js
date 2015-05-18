@@ -2,44 +2,41 @@
 Polymer({
   is: "play-minesweeper",
   properties: {
-    inputsConfig: {
-      type: Array,
-      value: [{
-        name: "rows",
-        step: 5,
-        min: 5,
-        max: 20,
-        value: 10
-      }, {
-        name: "columns",
-        step: 5,
-        min: 5,
-        max: 40,
-        value: 15
-      }, {
-        name: "mines",
-        step: 5,
-        min: 5,
-        max: 200,
-        value: 15
-      }]
-    }
+    rows: {
+      type: Number,
+      value: 10
+    },
+    columns: {
+      type: Number,
+      value: 10
+    },
+    mines: {
+      type: Number,
+      value: 10
+    },
+    board: Object
   },
 
-  /**
-   * Inject the board dynamically
-   */
+  ready: function ready() {
+    this.board = document.createElement("ms-board");
+    Polymer.dom(this.$.board).appendChild(this.board);
+  },
+
   play: function play() {
-    this.$.board.innerHTML = "";
-    var max = this.inputsConfig[0].value * this.inputsConfig[1].value;
-    if (this.inputsConfig[2].value > max) {
-      this.inputsConfig[2].value = max - 1;
+    var rows = this.rows = parseInt(this.$$("#rows").value);
+    var columns = this.columns = parseInt(this.$$("#columns").value);
+    var mines = this.mines = parseInt(this.$$("#mines").value);
+    var max = rows * columns;
+    if (this.mines > max) {
+      this.mines = max - 1;
     }
-    if (this.inputsConfig[2].value < 1) {
-      this.inputsConfig[2].value = 1;
+    if (this.mines < 1) {
+      this.mines = 1;
     }
-    this.$.board.innerHTML = "<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>";
-    // this.injectBoundHTML('<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>', this.$.board);
+    this.board.rows = this.rows;
+    this.board.columns = this.columns;
+    this.board.mines = this.mines;
+    this.board.play();
   }
 });
 //# sourceMappingURL=play.js.map

@@ -4,7 +4,10 @@ Polymer({
   is: "ms-cell",
   properties: {
     cell: Object,
-    color: String,
+    color: {
+      type: String,
+      notify: true
+    },
     revealed: {
       type: Boolean,
       value: false,
@@ -31,8 +34,11 @@ Polymer({
     }
   },
   ready: function ready() {
-    var _this = this;
     this.color = "color:" + this.cell.color();
+    this.bindPropagate();
+  },
+  bindPropagate: function bindPropagate() {
+    var _this = this;
     /**
      * Recursively reveal a 0 risk cell's neighbors.
      * And check for wins if revealing a risky cell.
@@ -104,9 +110,8 @@ Polymer({
              * Animate the flag pickup:
              * Removing a class with animation (possible specific to reverse animation)
              * and then adding a class with animation on different cycles (eventloops)
-             * seems to do the trick.
+             * to prevent flicker and conflicting animation rules.
              */
-            debugger;
             Polymer.dom(flag).classList.remove("drop-flag");
             setTimeout(function () {
               Polymer.dom(flag).classList.add("pickup-flag");
@@ -115,6 +120,23 @@ Polymer({
         }
       })();
     }
+  },
+
+  reset: function reset() {
+    // hide
+    this.revealed = false;
+    Polymer.dom(this).classList.remove("explode", "revealed");
+    // unflag
+    this.cell.flagged = this.showFlag = false;
+    var flag = this.$$("#flag");
+    Polymer.dom(flag).classList.remove("flagged", "drop-flag");
+
+    this.removeEventListener("webkitAnimationEnd");
+    this.removeEventListener("MSAnimationEnd");
+    this.removeEventListener("animationend");
+
+    // rebind event listeners
+    this.bindPropagate();
   }
 });
 //# sourceMappingURL=cell.js.map

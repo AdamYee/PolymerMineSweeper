@@ -2,7 +2,10 @@ Polymer({
   is: 'ms-cell',
   properties: {
     cell: Object,
-    color: String,
+    color: {
+      type: String,
+      notify: true
+    },
     revealed: {
       type: Boolean,
       value: false,
@@ -30,6 +33,9 @@ Polymer({
   },
   ready() {
     this.color = 'color:' + this.cell.color();
+    this.bindPropagate();
+  },
+  bindPropagate() {
     /**
      * Recursively reveal a 0 risk cell's neighbors.
      * And check for wins if revealing a risky cell.
@@ -106,5 +112,17 @@ Polymer({
         }, 0);
       }
     }
+  },
+
+  reset() {
+    // hide
+    this.revealed = false;
+    Polymer.dom(this).classList.remove('explode', 'revealed');
+    // unflag
+    this.cell.flagged = this.showFlag = false;
+    let flag = this.$$('#flag');
+    Polymer.dom(flag).classList.remove('flagged', 'drop-flag');
+    // rebind event listeners
+    this.bindPropagate();
   }
 });

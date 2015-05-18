@@ -1,10 +1,10 @@
 "use strict";
-Polymer({
+var PlayMS = Polymer({
   is: "ms-board",
   properties: {
-    rows: { type: Number, value: 15 },
-    columns: { type: Number, value: 15 },
-    mines: { type: Number, value: 15 },
+    rows: Number,
+    columns: Number,
+    mines: Number,
     flagCount: { type: Number, value: 0 },
     gameOver: { type: Boolean, value: false },
     win: { type: Boolean, value: false },
@@ -36,7 +36,24 @@ Polymer({
    * in the `ready` lifecycle method.
    */
   ready: function ready() {
+    this.isPlaying = false;
+  },
+  play: function play() {
+    this.gameOver = this.win = this.doneExploding = false;
+    this.flagCount = 0;
     this.grid = new MSPolymer.Grid(this.rows, this.columns, this.mines);
+    if (this.isPlaying) {
+      for (var i = 0; i < this.rows; i++) {
+        for (var j = 0; j < this.columns; j++) {
+          var cell = Polymer.dom(this.$.board).querySelector("#cid_" + i + "_" + j);
+          if (cell) {
+            cell.reset();
+            cell.color = "color:" + this.grid.grid[i][j].color();
+          }
+        }
+      }
+    }
+    this.isPlaying = true;
   },
   flaggedHandler: function flaggedHandler(e) {
     this.flagCount += e.detail; // 1 or -1
