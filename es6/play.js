@@ -1,24 +1,30 @@
 "use strict";
 Polymer({
-  inputsConfig: [{
-    name: "rows",
-    step: 5,
-    min: 5,
-    max: 20,
-    value: 10
-  }, {
-    name: "columns",
-    step: 5,
-    min: 5,
-    max: 40,
-    value: 15
-  }, {
-    name: "mines",
-    step: 5,
-    min: 5,
-    max: 200,
-    value: 15
-  }],
+  is: "play-minesweeper",
+  properties: {
+    inputsConfig: {
+      type: Array,
+      value: [{
+        name: "rows",
+        step: 5,
+        min: 5,
+        max: 20,
+        value: 10
+      }, {
+        name: "columns",
+        step: 5,
+        min: 5,
+        max: 40,
+        value: 15
+      }, {
+        name: "mines",
+        step: 5,
+        min: 5,
+        max: 200,
+        value: 15
+      }]
+    }
+  },
 
   /**
    * Inject the board dynamically
@@ -32,7 +38,8 @@ Polymer({
     if (this.inputsConfig[2].value < 1) {
       this.inputsConfig[2].value = 1;
     }
-    this.injectBoundHTML("<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>", this.$.board);
+    this.$.board.innerHTML = "<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>";
+    // this.injectBoundHTML('<ms-board rows={{inputsConfig[0].value}} columns={{inputsConfig[1].value}} mines={{inputsConfig[2].value}}></ms-board>', this.$.board);
   }
 });
 //# sourceMappingURL=play.js.map
