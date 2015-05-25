@@ -77,7 +77,7 @@ var _prototypeProperties = function (child, staticProps, instanceProps) {
   var Grid = (function () {
     function Grid(rows, columns, mines) {
       var _this = this;
-      this.cells = [];
+      this.grid = [];
       this.mineArray = [];
       this.rows = rows;
       this.columns = columns;
@@ -85,9 +85,9 @@ var _prototypeProperties = function (child, staticProps, instanceProps) {
 
       // Generate grid of empty Cell Objects
       for (var i = 0; i < rows; i++) {
-        this.cells[i] = [];
+        this.grid[i] = [];
         for (var j = 0; j < columns; j++) {
-          this.cells[i][j] = new Cell(i, j);
+          this.grid[i][j] = new Cell(i, j);
         }
       }
 
@@ -95,15 +95,15 @@ var _prototypeProperties = function (child, staticProps, instanceProps) {
       for (var c = 0; c < mines; c++) {
         var a = Math.floor(rows * Math.random());
         var b = Math.floor(columns * Math.random());
-        if (this.cells[a][b].mine === true) {
+        if (this.grid[a][b].mine === true) {
           c--;
           continue;
         }
-        this.cells[a][b].mine = true;
-        this.mineArray.push(this.cells[a][b].id);
+        this.grid[a][b].mine = true;
+        this.mineArray.push(this.grid[a][b].id);
         var incrementRisk = this.forEachSurroudingCell(a, b);
         incrementRisk(function (r, c) {
-          return _this.cells[r][c].risk += 1;
+          return _this.grid[r][c].risk += 1;
         });
       }
     }
@@ -155,7 +155,7 @@ var _prototypeProperties = function (child, staticProps, instanceProps) {
             return { revealed: p.revealed + c.revealed, flagged: p.flagged + c.flagged };
           };
 
-          var counters = this.cells.map(function (row) {
+          var counters = this.grid.map(function (row) {
             return row.map(function (cell) {
               return { revealed: cell.revealed ? 1 : 0, flagged: cell.flagged ? 1 : 0 };
             }).reduce(counters);

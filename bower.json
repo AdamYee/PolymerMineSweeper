@@ -17,6 +17,7 @@
     "web-components"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.2"
+    "polymer": "Polymer/polymer#^0.9.0",
+    "layout": "Polymer/layout"
   }
 }
