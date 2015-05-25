@@ -130,13 +130,9 @@ Polymer({
     this.cell.flagged = this.showFlag = false;
     var flag = this.$$("#flag");
     Polymer.dom(flag).classList.remove("flagged", "drop-flag");
-
-    this.removeEventListener("webkitAnimationEnd");
-    this.removeEventListener("MSAnimationEnd");
-    this.removeEventListener("animationend");
-
     // rebind event listeners
     this.bindPropagate();
+    this.color = "color:" + this.cell.color();
   }
 });
 //# sourceMappingURL=cell.js.map

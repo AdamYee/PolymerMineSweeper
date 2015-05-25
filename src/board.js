@@ -11,6 +11,10 @@ var PlayMS = Polymer({
     doneExploding:  { type: Boolean, value: false },
     grid: Object,
 
+    alreadyRevealed: {
+      type: Object,
+      value: function() { return {}; }
+    },
     _gameEndMessage: {
       type: String, computed: 'computedEndMessage(win)'
     },
@@ -45,13 +49,14 @@ var PlayMS = Polymer({
     if (this.isPlaying) {
       for (let i = 0; i < this.rows; i++) {
         for (let j = 0; j < this.columns; j++) {
-          let cell = Polymer.dom(this.$.board).querySelector('#cid_' + i + '_' + j);
+          let cell = Polymer.dom(this.$.board).querySelector(`#cid_${i}_${j}`);
           if (cell) {
             cell.reset();
-            cell.color = 'color:' + this.grid.grid[i][j].color();
+            cell.color = `color: ${this.grid.grid[i][j].color()}`;
           }
         }
       }
+      this.alreadyRevealed = {};
     }
     this.isPlaying = true;
   },
@@ -70,18 +75,23 @@ var PlayMS = Polymer({
    * Recursion is oddly handled through animation. See `propagate` on ms-cell.html.
    */
   revealNeighbors(e) {
+    
     let position = e.srcElement.id.split('_').slice(-2); // get grid position from id
     let row = parseInt(position[0]);
     let col = parseInt(position[1]);
     let revealNeighbor = this.grid.forEachSurroudingCell(row, col);
     revealNeighbor((r, c) => {
+      if(this.alreadyRevealed.hasOwnProperty(`#cid_${r}_${c}`)) {
+        return;
+      }
+      this.alreadyRevealed[`#cid_${r}_${c}`] = true;
       /**
        * Common Polymer gotcha:
        * Automatic node finding only works 1 level deep in the shadow DOM tree.
        * Anything deeper can be accessed by using `querySelector` on an
        * automatically found node.
        */
-      let neighbor = Polymer.dom(this.$.board).querySelector('#cid_' + r + '_' + c);
+      let neighbor = Polymer.dom(this.$.board).querySelector(`#cid_${r}_${c}`);
       if (!neighbor.cell.flagged) {
         neighbor.revealed = true; // recursion via data-binding
       }
@@ -94,7 +104,7 @@ var PlayMS = Polymer({
   createExplosion(e) {
     this.gameOver = true;
 
-    let mineCellIds = this.grid.mineArray.map((id) => '#' + id).join(',');
+    let mineCellIds = this.grid.mineArray.map((id) => `#${id}`).join(',');
     let minesArr = Array.from(Polymer.dom(this.$.board).querySelectorAll(mineCellIds));
     minesArr = shuffleArray(minesArr); // shuffle the mines for a random explosion effect
 

@@ -33,9 +33,9 @@ Polymer({
     if (this.mines < 1) {
       this.mines = 1;
     }
-    this.board.rows = this.rows;
-    this.board.columns = this.columns;
-    this.board.mines = this.mines;
+    this.board.rows = 20;
+    this.board.columns = 40;
+    this.board.mines = 60;
     this.board.play();
   }
 });

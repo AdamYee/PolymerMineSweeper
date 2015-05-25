@@ -11,7 +11,7 @@
       this.revealed = false;
       this.flagged = false;
       this.risk = 0;
-      this.id = "cid_" + i + '_' + j;
+      this.id = `cid_${i}_${j}`;
       this.memoizedRevealedVal; // memoized display value
     }
 

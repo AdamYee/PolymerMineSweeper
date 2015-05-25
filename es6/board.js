@@ -11,6 +11,12 @@ var PlayMS = Polymer({
     doneExploding: { type: Boolean, value: false },
     grid: Object,
 
+    alreadyRevealed: {
+      type: Object,
+      value: function () {
+        return {};
+      }
+    },
     _gameEndMessage: {
       type: String, computed: "computedEndMessage(win)"
     },
@@ -48,10 +54,11 @@ var PlayMS = Polymer({
           var cell = Polymer.dom(this.$.board).querySelector("#cid_" + i + "_" + j);
           if (cell) {
             cell.reset();
-            cell.color = "color:" + this.grid.grid[i][j].color();
+            cell.color = "color: " + this.grid.grid[i][j].color();
           }
         }
       }
+      this.alreadyRevealed = {};
     }
     this.isPlaying = true;
   },
@@ -71,11 +78,17 @@ var PlayMS = Polymer({
    */
   revealNeighbors: function revealNeighbors(e) {
     var _this = this;
+
+
     var position = e.srcElement.id.split("_").slice(-2); // get grid position from id
     var row = parseInt(position[0]);
     var col = parseInt(position[1]);
     var revealNeighbor = this.grid.forEachSurroudingCell(row, col);
     revealNeighbor(function (r, c) {
+      if (_this.alreadyRevealed.hasOwnProperty("#cid_" + r + "_" + c)) {
+        return;
+      }
+      _this.alreadyRevealed["#cid_" + r + "_" + c] = true;
       /**
        * Common Polymer gotcha:
        * Automatic node finding only works 1 level deep in the shadow DOM tree.
