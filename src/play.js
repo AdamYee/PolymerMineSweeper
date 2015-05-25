@@ -23,19 +23,19 @@ Polymer({
   },
 
   play() {
-    let rows = this.rows = parseInt(this.$$('#rows').value);
-    let columns = this.columns = parseInt(this.$$('#columns').value);
-    let mines = this.mines = parseInt(this.$$('#mines').value);
-    let max = rows * columns;
+    this.rows = parseInt(this.$$('#rows').value);
+    this.columns = parseInt(this.$$('#columns').value);
+    this.mines = parseInt(this.$$('#mines').value);
+    let max = this.rows * this.columns;
     if (this.mines > max) {
       this.mines = max - 1;
     }
     if (this.mines < 1) {
       this.mines = 1;
     }
-    this.board.rows = rows;
-    this.board.columns = columns;
-    this.board.mines = mines;
+    this.board.rows = this.rows;
+    this.board.columns = this.columns;
+    this.board.mines = this.mines;
     this.board.play();
   }
 });
