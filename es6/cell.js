@@ -132,7 +132,6 @@ Polymer({
     Polymer.dom(flag).classList.remove("flagged", "drop-flag");
     // rebind event listeners
     this.bindPropagate();
-    this.color = "color:" + this.cell.color();
   }
 });
 //# sourceMappingURL=cell.js.map
