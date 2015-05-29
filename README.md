@@ -12,7 +12,7 @@ Usage
 -----
 
 ```html
-<script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <link rel="import" href="bower_components/play-minesweeper/play-minesweeper.html">
 <play-minesweeper></play-minesweeper>
 ```
