@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 Polymer({
-  is: "play-minesweeper",
+  is: 'play-minesweeper',
   properties: {
     rows: {
       type: Number,
@@ -18,14 +18,14 @@ Polymer({
   },
 
   ready: function ready() {
-    this.board = document.createElement("ms-board");
+    this.board = document.createElement('ms-board');
     Polymer.dom(this.$.board).appendChild(this.board);
   },
 
   play: function play() {
-    this.rows = parseInt(this.$$("#rows").value);
-    this.columns = parseInt(this.$$("#columns").value);
-    this.mines = parseInt(this.$$("#mines").value);
+    this.rows = parseInt(this.$$('#rows').value);
+    this.columns = parseInt(this.$$('#columns').value);
+    this.mines = parseInt(this.$$('#mines').value);
     var max = this.rows * this.columns;
     if (this.mines > max) {
       this.mines = max - 1;

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 var PlayMS = Polymer({
-  is: "ms-board",
+  is: 'ms-board',
   properties: {
     rows: Number,
     columns: Number,
@@ -13,32 +13,32 @@ var PlayMS = Polymer({
 
     alreadyRevealed: {
       type: Object,
-      value: function () {
+      value: function value() {
         return {};
       }
     },
     _gameEndMessage: {
-      type: String, computed: "computedEndMessage(win)"
+      type: String, computed: 'computedEndMessage(win)'
     },
     _gameEndCss: {
-      type: String, computed: "computedEndCss(doneExploding, win)"
+      type: String, computed: 'computedEndCss(doneExploding, win)'
     },
     _gameEndColor: {
-      type: String, computed: "computedEndColor(win)"
+      type: String, computed: 'computedEndColor(win)'
     }
   },
   computedEndMessage: function computedEndMessage(win) {
-    return win ? "YOU WIN" : "GAME OVER";
+    return win ? 'YOU WIN' : 'GAME OVER';
   },
   computedEndCss: function computedEndCss(doneExploding, win) {
     if (doneExploding || win) {
-      Polymer.dom(this.$["game-end"]).classList.add("show");
+      Polymer.dom(this.$['game-end']).classList.add('show');
     } else {
-      Polymer.dom(this.$["game-end"]).classList.remove("show");
+      Polymer.dom(this.$['game-end']).classList.remove('show');
     }
   },
   computedEndColor: function computedEndColor(win) {
-    return "color:" + (win ? "green" : "red");
+    return 'color:' + (win ? 'green' : 'red');
   },
   /**
    * IMPORTANT: Attributes configured via an element e.g. <x-foo name="bar"></x-foo>
@@ -55,7 +55,7 @@ var PlayMS = Polymer({
     if (this.isPlaying) {
       for (var i = 0; i < this.rows; i++) {
         for (var j = 0; j < this.columns; j++) {
-          var cell = Polymer.dom(this.$.board).querySelector("#cid_" + i + "_" + j);
+          var cell = Polymer.dom(this.$.board).querySelector('#cid_' + i + '_' + j);
           if (cell) {
             cell.reset();
           }
@@ -82,23 +82,22 @@ var PlayMS = Polymer({
   revealNeighbors: function revealNeighbors(e) {
     var _this = this;
 
-
-    var position = e.target.id.split("_").slice(-2); // get grid position from id
+    var position = e.target.id.split('_').slice(-2); // get grid position from id
     var row = parseInt(position[0]);
     var col = parseInt(position[1]);
     var revealNeighbor = this.grid.forEachSurroudingCell(row, col);
     revealNeighbor(function (r, c) {
-      if (_this.alreadyRevealed.hasOwnProperty("#cid_" + r + "_" + c)) {
+      if (_this.alreadyRevealed.hasOwnProperty('#cid_' + r + '_' + c)) {
         return;
       }
-      _this.alreadyRevealed["#cid_" + r + "_" + c] = true;
+      _this.alreadyRevealed['#cid_' + r + '_' + c] = true;
       /**
        * Common Polymer gotcha:
        * Automatic node finding only works 1 level deep in the shadow DOM tree.
        * Anything deeper can be accessed by using `querySelector` on an
        * automatically found node.
        */
-      var neighbor = Polymer.dom(_this.$.board).querySelector("#cid_" + r + "_" + c);
+      var neighbor = Polymer.dom(_this.$.board).querySelector('#cid_' + r + '_' + c);
       if (!neighbor.cell.flagged) {
         neighbor.revealed = true; // recursion via data-binding
       }
@@ -110,31 +109,32 @@ var PlayMS = Polymer({
    */
   createExplosion: function createExplosion(e) {
     var _this2 = this;
+
     this.gameOver = true;
 
     var unflaggedMines = 0;
     var explodedCount = 0;
     var mineCellIds = this.grid.mineArray.map(function (id) {
-      return "#" + id;
-    }).join(",");
+      return '#' + id;
+    }).join(',');
     var minesArr = Array.from(Polymer.dom(this.$.board).querySelectorAll(mineCellIds));
     minesArr = shuffleArray(minesArr); // shuffle the mines for a random explosion effect
 
     // know when to show the game over message - after we're done exploding
-    var explode = function (e) {
-      if (e.animationName === "explode") {
+    var explode = function explode(e) {
+      if (e.animationName === 'explode') {
         explodedCount++;
         if (explodedCount === unflaggedMines) {
           _this2.doneExploding = true;
-          _this2.removeEventListener("webkitAnimationEnd", explode);
-          _this2.removeEventListener("MSAnimationEnd", explode);
-          _this2.removeEventListener("animationend", explode);
+          _this2.removeEventListener('webkitAnimationEnd', explode);
+          _this2.removeEventListener('MSAnimationEnd', explode);
+          _this2.removeEventListener('animationend', explode);
         }
       }
     };
-    this.addEventListener("webkitAnimationEnd", explode);
-    this.addEventListener("MSAnimationEnd", explode);
-    this.addEventListener("animationend", explode);
+    this.addEventListener('webkitAnimationEnd', explode);
+    this.addEventListener('MSAnimationEnd', explode);
+    this.addEventListener('animationend', explode);
 
     minesArr.forEach(function (cell, i) {
       setTimeout(function () {

@@ -111,7 +111,7 @@
      * @return {Boolean} - true if rows * columns equals # of revealed cells + # of flagged cells
      */
     hasWon() {
-      function counters (p, c) {
+      function sumCounters(p, c) {
         return { revealed: p.revealed + c.revealed, flagged: p.flagged + c.flagged };
       }
       let counters = this.grid
@@ -119,8 +119,8 @@
           row.map((cell) => {
             return { revealed: cell.revealed ? 1 : 0, flagged: cell.flagged ? 1 : 0 };
           })
-          .reduce(counters))
-        .reduce(counters);
+          .reduce(sumCounters))
+        .reduce(sumCounters);
       return this.rows * this.columns === counters.revealed + counters.flagged;
     }
   }
