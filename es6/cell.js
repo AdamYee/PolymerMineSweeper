@@ -23,6 +23,10 @@ Polymer({
       computed: "computedDisplayVal(cell.flagged, revealed)"
     }
   },
+  observers: ["colorChanged(cell.color)"],
+  colorChanged: function colorChanged() {
+    this.color = "color: " + this.cell.color();
+  },
   computedHide: function computedHide(flagged, revealed) {
     return !flagged && !revealed;
   },

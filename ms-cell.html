@@ -11,13 +11,21 @@
       font-family: monospace;
       font-weight: bold;
     }
-    #cell-wrapper {
-      height: inherit;
-    }
     :host(.revealed) {
       background-color: #eee;
       -webkit-animation: ripple 75ms, fade 300ms;
       animation: ripple 75ms, fade 300ms;
+    }
+    :host(.explode) {
+      background-color: #eee;
+      -webkit-animation: ripple 275ms, explode 275ms;
+      animation: ripple 275ms, explode 275ms;
+    }
+    #cell-wrapper {
+      height: inherit;
+      @apply(--layout);
+      @apply(--layout-center);
+      @apply(--layout-center-justified);
     }
     .flagged {
       z-index: 99;
@@ -35,11 +43,6 @@
     .pickup-flag {
       -webkit-animation: flag 250ms reverse;
       animation: flag 250ms reverse;
-    }
-    :host(.explode) {
-      background-color: #eee;
-      -webkit-animation: ripple 275ms, explode 275ms;
-      animation: ripple 275ms, explode 275ms;
     }
     @-webkit-keyframes flag {
       0% {
@@ -100,7 +103,7 @@
     @keyframes explode { 50% { background-color: orangered; box-shadow: 0 0 65px 10px red; } }
   </style>
   <template>
-    <div on-click="reveal" on-contextmenu="flag" id="cell-wrapper" class="horizontal center-justified layout center" style$="{{color}}">
+    <div on-click="reveal" on-contextmenu="flag" id="cell-wrapper" style$="{{color}}">
       <div id="flag" hidden$="{{!showFlag}}">F</div>
       <div hidden$="{{hide}}">{{displayVal}}</div>
     </div>

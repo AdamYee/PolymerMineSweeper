@@ -31,6 +31,12 @@
       -webkit-animation: show 1.2s;
       animation: show 1.2s;
       opacity: 1;
+      @apply(--layout);
+      @apply(--layout-center);
+      @apply(--layout-center-justified);
+    }
+    .row {
+      @apply(--layout-horizontal);
     }
     @-webkit-keyframes show {
       0% {opacity: 0;}
@@ -44,7 +50,7 @@
       on-flagged="flaggedHandler"
       on-check-win="checkWin">
       <template is="dom-repeat" items="{{grid.grid}}" as="row">
-        <div class="horizontal layout">
+        <div class="row">
           <template is="dom-repeat" items="{{row}}" as="cell">
             <ms-cell
               id="{{cell.id}}"

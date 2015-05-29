@@ -31,7 +31,11 @@ var PlayMS = Polymer({
     return win ? "YOU WIN" : "GAME OVER";
   },
   computedEndCss: function computedEndCss(doneExploding, win) {
-    return (doneExploding || win ? "show" : "") + " horizontal center-justified layout center";
+    if (doneExploding || win) {
+      Polymer.dom(this.$["game-end"]).classList.add("show");
+    } else {
+      Polymer.dom(this.$["game-end"]).classList.remove("show");
+    }
   },
   computedEndColor: function computedEndColor(win) {
     return "color:" + (win ? "green" : "red");
@@ -54,7 +58,6 @@ var PlayMS = Polymer({
           var cell = Polymer.dom(this.$.board).querySelector("#cid_" + i + "_" + j);
           if (cell) {
             cell.reset();
-            cell.color = "color: " + this.grid.grid[i][j].color();
           }
         }
       }
@@ -80,7 +83,7 @@ var PlayMS = Polymer({
     var _this = this;
 
 
-    var position = e.srcElement.id.split("_").slice(-2); // get grid position from id
+    var position = e.target.id.split("_").slice(-2); // get grid position from id
     var row = parseInt(position[0]);
     var col = parseInt(position[1]);
     var revealNeighbor = this.grid.forEachSurroudingCell(row, col);
@@ -109,6 +112,8 @@ var PlayMS = Polymer({
     var _this2 = this;
     this.gameOver = true;
 
+    var unflaggedMines = 0;
+    var explodedCount = 0;
     var mineCellIds = this.grid.mineArray.map(function (id) {
       return "#" + id;
     }).join(",");
@@ -116,12 +121,14 @@ var PlayMS = Polymer({
     minesArr = shuffleArray(minesArr); // shuffle the mines for a random explosion effect
 
     // know when to show the game over message - after we're done exploding
-    var explodedCount = 0;
     var explode = function (e) {
       if (e.animationName === "explode") {
         explodedCount++;
-        if (explodedCount === _this2.mines - _this2.flagCount) {
+        if (explodedCount === unflaggedMines) {
           _this2.doneExploding = true;
+          _this2.removeEventListener("webkitAnimationEnd", explode);
+          _this2.removeEventListener("MSAnimationEnd", explode);
+          _this2.removeEventListener("animationend", explode);
         }
       }
     };
@@ -132,6 +139,7 @@ var PlayMS = Polymer({
     minesArr.forEach(function (cell, i) {
       setTimeout(function () {
         if (!cell.cell.flagged) {
+          unflaggedMines++;
           cell.revealed = true; // explode unflagged mines
         }
       }, i % 2 === 0 ? i * 15 : i * 12);
