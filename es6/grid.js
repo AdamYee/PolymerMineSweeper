@@ -9,7 +9,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (root, factory) {
   root.MSPolymer = factory(root, {});
-})(undefined, /* environment global */function (root, MSPolymer) {
+})(undefined || window /* environment global */, function (root, MSPolymer) {
   var Cell = (function () {
     function Cell(i, j) {
       _classCallCheck(this, Cell);

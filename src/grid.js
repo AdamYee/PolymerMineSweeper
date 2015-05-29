@@ -3,7 +3,7 @@
  */
 ((root, factory) => {
   root.MSPolymer = factory(root, {});
-}(this /* environment global */, (root, MSPolymer) => {
+}(this || window /* environment global */, (root, MSPolymer) => {
 
   class Cell {
     constructor(i, j) {
