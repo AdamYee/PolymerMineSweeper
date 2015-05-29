@@ -25,7 +25,6 @@ Polymer({
   },
   observers: ["colorChanged(cell.color)"],
   colorChanged: function colorChanged() {
-    debugger;
     this.color = "color: " + this.cell.color();
   },
   computedHide: function computedHide(flagged, revealed) {
