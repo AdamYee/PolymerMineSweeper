@@ -52,7 +52,6 @@ var PlayMS = Polymer({
           let cell = Polymer.dom(this.$.board).querySelector(`#cid_${i}_${j}`);
           if (cell) {
             cell.reset();
-            cell.color = `color: ${this.grid.grid[i][j].color()}`;
           }
         }
       }
