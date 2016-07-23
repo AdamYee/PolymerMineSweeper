@@ -122,7 +122,7 @@ var PlayMS = Polymer({
 
     // know when to show the game over message - after we're done exploding
     var explode = function explode(e) {
-      if (e.animationName === 'explode') {
+      if (e.animationName.includes('explode')) {
         explodedCount++;
         if (explodedCount === unflaggedMines) {
           _this2.doneExploding = true;

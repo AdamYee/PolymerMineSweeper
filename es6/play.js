@@ -1,6 +1,6 @@
 'use strict';
 Polymer({
-  is: 'play-minesweeper',
+  is: "play-minesweeper",
   properties: {
     rows: {
       type: Number,
