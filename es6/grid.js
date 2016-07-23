@@ -9,7 +9,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (root, factory) {
   root.MSPolymer = factory(root, {});
-})(undefined || window /* environment global */, function (root, MSPolymer) {
+})(undefined || window, /* environment global */function (root, MSPolymer) {
   var Cell = (function () {
     function Cell(i, j) {
       _classCallCheck(this, Cell);
@@ -105,17 +105,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
     }
 
+    /**
+     * A curry helper method that captures the target cell location
+     * in a closure to be used later by the callback(row, column).
+     * The curried method will invoke the callback for each surrounding cell
+     * that is inside the grid.
+     * @param  {number}  row
+     * @param  {number}  col
+     */
+
     _createClass(Grid, [{
       key: 'forEachSurroudingCell',
-
-      /**
-       * A curry helper method that captures the target cell location
-       * in a closure to be used later by the callback(row, column).
-       * The curried method will invoke the callback for each surrounding cell
-       * that is inside the grid.
-       * @param  {number}  row
-       * @param  {number}  col
-       */
       value: function forEachSurroudingCell(row, col) {
         var _this2 = this;
 
@@ -125,7 +125,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          * @param {Object} context - if no context is passed, it will default to the grid.
          */
         return function (callback) {
-          var context = arguments[1] === undefined ? _this2 : arguments[1];
+          var context = arguments.length <= 1 || arguments[1] === undefined ? _this2 : arguments[1];
 
           var isInsideGrid = false;
           for (var i = -1; i <= 1; i++) {
@@ -138,14 +138,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
         };
       }
-    }, {
-      key: 'hasWon',
 
       /**
        * Maps and reduces the grid's 2d array using each cell's
        * `revealed` and `flagged` attributes as counters.
        * @return {Boolean} - true if rows * columns equals # of revealed cells + # of flagged cells
        */
+    }, {
+      key: 'hasWon',
       value: function hasWon() {
         function sumCounters(p, c) {
           return { revealed: p.revealed + c.revealed, flagged: p.flagged + c.flagged };
